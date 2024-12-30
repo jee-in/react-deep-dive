@@ -10,9 +10,12 @@ function useCounter(initCount: number = 0) {
   return { counter, inc };
 }
 
-export function Counter1() {
-  const { counter, inc } = useCounter();
+interface counterProps {
+  counter: number;
+  inc: () => void;
+}
 
+export function Counter1({ counter, inc }: counterProps) {
   return (
     <>
       <h3>Counter1: {counter}</h3>
@@ -21,13 +24,22 @@ export function Counter1() {
   );
 }
 
-export function Counter2() {
-  const { counter, inc } = useCounter();
-
+export function Counter2({ counter, inc }: counterProps) {
   return (
     <>
       <h3>Counter2: {counter}</h3>
       <button onClick={inc}>+</button>
+    </>
+  );
+}
+
+export function Parent() {
+  const { counter, inc } = useCounter();
+
+  return (
+    <>
+      <Counter1 counter={counter} inc={inc} />
+      <Counter2 counter={counter} inc={inc} />
     </>
   );
 }
